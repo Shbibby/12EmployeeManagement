@@ -19,4 +19,12 @@ function addDepartment() {
   //
 }
 
+getDeptNames() {
+  let departmentsArr;
+  var query = "SELECT name FROM department ORDER BY name";
+  connection.query(query, function(err, res) {
+    return res;
+  });
+}
+
 module.exports = departmentJS;
