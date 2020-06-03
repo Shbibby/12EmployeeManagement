@@ -1,11 +1,9 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-
-const departmentJS = require("./department");
-const departmentJS = require("./role");
-const departmentJS = require("./employee");
-
-
+  const departmentJS = require("./department");
+  const roleJS = require("./role");
+  const employeeJS = require("./employee");
+//
 
 var connection = mysql.createConnection({
   host: "localhost",
