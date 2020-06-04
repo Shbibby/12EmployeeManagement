@@ -42,8 +42,11 @@ function whatUserDo() {
         break;
 
       case "View Departments/Roles/Employees":
-        viewDRE();
-        break;
+        let checkIfDept = viewDRE();
+        if (checkIfDept === "You need to add a department first") {
+          console.log(checkIfDept);
+          whatUserDo();
+        } else break;
 
       case "Update employee roles":
         updateEmployee();
