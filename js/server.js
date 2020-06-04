@@ -1,8 +1,8 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-  const departmentJS = require("./department");
-  const roleJS = require("./role");
-  const employeeJS = require("./employee");
+  // require("./department");
+  // require("./role");
+  // require("./employee");
 //
 
 var connection = mysql.createConnection({
@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
   // Your username
     user: "root",
   // Your password
-    password: "",
+    password: "root",
   //
   database: "employee_trackerDB"
 });
@@ -38,20 +38,20 @@ function whatUserDo() {
     .then(function(answer) {
       switch (answer.action) {
       case "Add Departments/Roles/Employees":
-        let runDRE = addDRE();
-        if (runDRE === "exit") {
+        let addExit = addDRE();
+        if (addExit === "exit") {
           // reset questions
         } else break;
 
       case "View Departments/Roles/Employees":
-        let runDRE = viewDRE();
-        if (runDRE === "exit") {
+        let viewExit = viewDRE();
+        if (viewExit === "exit") {
           // reset questions
         } else break;
 
       case "Update employee roles":
-        let runDRE = updateEmployee();
-        if (runDRE === "exit") {
+        let updateExit = updateEmployee();
+        if (updateExit === "exit") {
           // reset questions
         } else break;
       }
@@ -149,3 +149,5 @@ function viewDRE() {
     });
   //
 }
+
+module.exports = connection;

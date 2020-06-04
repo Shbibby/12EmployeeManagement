@@ -34,4 +34,4 @@ function viewDepartments() {
   });
 }
 
-module.exports = departmentJS;
+exports.addDepartment = addDepartment;

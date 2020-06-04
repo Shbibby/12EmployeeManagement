@@ -49,7 +49,7 @@ function addEmployee() {
             let namesArr = answer.employeeManagerNames.split(' ');
               let firstName = namesArr[0];
               let lastName = namesArr[1];
-            managerID = getEmployeesByName(firstName, lastName);
+            managerID = getEmployeesIdByName(firstName, lastName);
           }
           
           var query = connection.query(
@@ -80,7 +80,7 @@ function addEmployee() {
   //
 }
 
-function getEmployeesByName(first, last) {
+function getEmployeesIdByName(first, last) {
   let managerArr;
 
   var query = connection.query(
@@ -118,7 +118,7 @@ function updateEmployee() {
       let namesArr = answer.employeeName.split(' ');
         let firstName = namesArr[0];
         let lastName = namesArr[1];
-      employeeUpdateId = getEmployeesByName(firstName, lastName);
+      employeeUpdateId = getEmployeesIdByName(firstName, lastName);
     })
     .catch(error => {
       if(error.isTtyError) {
@@ -149,8 +149,7 @@ function updateEmployee() {
         let namesArr = answer.employeeNewManager.split(' ');
           let firstName = namesArr[0];
           let lastName = namesArr[1];
-        let employees = getEmployeesByName(firstName, lastName);
-        return employees;
+        getEmployeesIdByName(firstName, lastName);
       }
 
       let employeeRoleTitle = answer.employeeNewRoleTitle
@@ -167,4 +166,4 @@ function updateEmployee() {
 }
 
 
-module.exports = employeeJS;
+exports.addEmployee = addEmployee;

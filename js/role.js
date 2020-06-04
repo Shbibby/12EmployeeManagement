@@ -90,4 +90,4 @@ function updateEmployeeRole(title, id) {
     );
 }
 
-module.exports = roleJS;
+exports.addRole = addRole;
