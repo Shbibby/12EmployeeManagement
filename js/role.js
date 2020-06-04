@@ -60,11 +60,18 @@ function addRole() {
   //
 }
 
-getRoleNames() {
-  let roleArr;
-  var query = "SELECT title FROM role ORDER BY title";
+function getRoleNames() {
+  var query = "SELECT title FROM roles ORDER BY title";
   connection.query(query, function(err, res) {
     return res;
+  });
+}
+
+function viewRoles() {
+  var query = "SELECT title FROM roles ORDER BY name";
+  connection.query(query, function(err, res) {
+    return res;
+    // format to look better while viewing results
   });
 }
 

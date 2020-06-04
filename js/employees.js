@@ -53,7 +53,7 @@ function addEmployee() {
           }
           
           var query = connection.query(
-            "INSERT INTO employee SET ?",
+            "INSERT INTO employees SET ?",
             {
               first_name: answer.employeeFirst
             },
@@ -84,7 +84,7 @@ function getManagerByNames(first, last) {
   let managerArr;
 
   var query = connection.query(
-    "SELECT id FROM employee WHERE ? AND ? ORDER BY id", 
+    "SELECT id FROM employees WHERE ? AND ? ORDER BY id", 
     {
       first_name: first
     },
@@ -95,5 +95,14 @@ function getManagerByNames(first, last) {
     return res;
   });
 }
+
+function viewEmployees() {
+  var query = "SELECT first_name AND last_name FROM departments ORDER BY last_name";
+  connection.query(query, function(err, res) {
+    return res;
+    // format to look better while viewing results
+  });
+}
+
 
 module.exports = employeeJS;

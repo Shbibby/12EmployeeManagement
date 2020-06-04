@@ -3,11 +3,11 @@ function addDepartment() {
     .prompt({
       name: "deptName",
       type: "input",
-      message: "What is the name of the department you want to add?",
+      message: "What is the name of the departments you want to add?",
     })
     .then(function(answer) {
       var query = connection.query(
-        "INSERT INTO department SET ?",
+        "INSERT INTO departments SET ?",
         {
           name: answer.deptName
         },
@@ -19,11 +19,18 @@ function addDepartment() {
   //
 }
 
-getDeptNames() {
-  let departmentsArr;
-  var query = "SELECT name FROM department ORDER BY name";
+function getDeptNames() {
+  var query = "SELECT name FROM departments ORDER BY name";
   connection.query(query, function(err, res) {
     return res;
+  });
+}
+
+function viewDepartments() {
+  var query = "SELECT name FROM departments ORDER BY name";
+  connection.query(query, function(err, res) {
+    return res;
+    // format to look better while viewing results
   });
 }
 

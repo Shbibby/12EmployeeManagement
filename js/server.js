@@ -115,14 +115,37 @@ function addDRE() {
 
 function viewDRE() {
   inquirer
-  .prompt({
-    name: "action",
-    type: "list",
-    message: "What would you like to view?",
-    choices: [
-      "Departments",
-      "Roles",
-      "Employees"
-    ]
-  })
+    .prompt({
+      name: "action",
+      type: "list",
+      message: "What would you like to view?",
+      choices: [
+        "Departments",
+        "Roles",
+        "Employees"
+      ]
+    })
+    .then(function(answer) {
+      switch (answer.action) {
+      case "Department":
+        viewDepartments();
+        break;
+
+      case "Role":
+        viewRoles();
+        break;
+
+      case "Employee":
+        viewEmployees();
+        break;
+      }
+    })
+    .catch(error => {
+      if(error.isTtyError) {
+        // Prompt couldn't be rendered in the current environment
+      } else {
+        // Something else when wrong
+      }
+    });
+  //
 }
