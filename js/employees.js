@@ -32,9 +32,16 @@ function addEmployee() {
             name: "employeeLast",
             type: "number",
             message: "What is the last name of the employee you want to add?",
+          },
+          {
+            name: "employeeManagerId",
+            type: "input",
+            message: "Who is the manager of the employee you want to add? [FIRST NAME] [LAST NAME]",
           }
         )
         .then(function(answer) {
+          let managerID = getManagerByNames();
+
           var query = connection.query(
             "INSERT INTO employee SET ?",
             {
@@ -42,6 +49,9 @@ function addEmployee() {
             },
             {
               last_name: answer.employeeLast
+            },
+            {
+              manager_id: managerId
             },
             function(err, res) {
               if (err) throw err;
@@ -58,6 +68,22 @@ function addEmployee() {
       }
     });
   //
+}
+
+function getManagerByNames(first, last) {
+  let managerArr;
+
+  var query = connection.query(
+    "SELECT id FROM employee WHERE ? AND ? ORDER BY id", 
+    {
+      first_name: first
+    },
+    {
+      last_name: last
+    },
+    function(err, res) {
+    return res;
+  });
 }
 
 module.exports = employeeJS;
