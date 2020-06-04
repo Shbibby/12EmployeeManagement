@@ -9,11 +9,11 @@ function addEmployee() {
     .prompt({
       name: "dept",
       type: "list",
-      message: "Which department do you want to add a role in?",
-      choices: [roleNames]
+      message: "Which role do you want to add an employee to?",
+      choices: [roleNames].push("exit to main select page")
     })
     .then(function(answer) {
-      if (answer === exit) {
+      if (answer === "exit to main select page") {
         return "exit";
       }
 
@@ -34,14 +34,24 @@ function addEmployee() {
             message: "What is the last name of the employee you want to add?",
           },
           {
-            name: "employeeManagerId",
+            name: "employeeManagerNames",
             type: "input",
-            message: "Who is the manager of the employee you want to add? [FIRST NAME] [LAST NAME]",
-          }
+            message: `Who is the manager of the employee you want to add? 
+            /n format answer as [FIRST NAME] [LAST NAME] or:
+            /n type 'manager' if employee is a manager`,
+          },
         )
         .then(function(answer) {
-          let managerID = getManagerByNames();
-
+          let managerId;
+          if (answer.employeeManagerNames.toLowerCase().slice(7) === "manager") {
+            managerID = NULL;
+          } else {
+            let namesArr = answer.employeeManagerNames.split(' ');
+              let firstName = namesArr[0];
+              let lastName = namesArr[1];
+            managerID = getManagerByNames(firstName, lastName);
+          }
+          
           var query = connection.query(
             "INSERT INTO employee SET ?",
             {
@@ -51,7 +61,7 @@ function addEmployee() {
               last_name: answer.employeeLast
             },
             {
-              manager_id: managerId
+              manager_id: managerID
             },
             function(err, res) {
               if (err) throw err;

@@ -9,11 +9,11 @@ function addRole() {
     .prompt({
       name: "dept",
       type: "list",
-      message: "Which department do you want to add a role in?",
-      choices: [deptNames].push("exit")
+      message: "Which department do you want to add a role to?",
+      choices: [deptNames].push("exit to main select page")
     })
     .then(function(answer) {
-      if (answer === exit) {
+      if (answer === "exit to main select page") {
         return "exit";
       }
 

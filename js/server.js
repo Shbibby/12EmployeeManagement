@@ -38,23 +38,21 @@ function whatUserDo() {
     .then(function(answer) {
       switch (answer.action) {
       case "Add Departments/Roles/Employees":
-        addDRE();
-        break;
+        let runDRE = addDRE();
+        if (runDRE === "exit") {
+          // reset questions
+        } else break;
 
       case "View Departments/Roles/Employees":
-        let checkIfDept = viewDRE();
-        if (checkIfDept === "You need to add a department first") {
-          console.log(checkIfDept);
-          whatUserDo();
-        } else if (checkIfDept === "exit") {
-          whatUserDo();
+        let runDRE = viewDRE();
+        if (runDRE === "exit") {
+          // reset questions
         } else break;
 
       case "Update employee roles":
-        let checkIfRole = viewDRE();
-        if (checkIfDept === "You need to add a role first") {
-          console.log(checkIfRole);
-          whatUserDo();
+        let runDRE = updateEmployee();
+        if (runDRE === "exit") {
+          // reset questions
         } else break;
       }
     })
@@ -72,7 +70,7 @@ function addDRE() {
   inquirer
     .prompt({
       name: "action",
-      type: "rawlist",
+      type: "list",
       message: "What would you like to add?",
       choices: [
         "Department",
@@ -87,12 +85,22 @@ function addDRE() {
         break;
 
       case "Role":
-        addRole();
-        break;
+        checkIfDept = addRole();
+        if (checkIfDept === "You need to add a department first") {
+          console.log(checkIfDept);
+          return "exit";
+        } else if (checkIfDept === "exit") {
+          return "exit";
+        } else break;
 
       case "Employee":
-        addEmployee();
-        break;
+        checkIfRole = addEmployee();
+        if (checkIfRole === "You need to add a role first") {
+          console.log(checkIfRole);
+          return "exit";
+        } else if (checkIfDept === "exit") {
+          return "exit";
+        } else break;
       }
     })
     .catch(error => {
@@ -103,4 +111,18 @@ function addDRE() {
       }
     });
   //
+}
+
+function viewDRE() {
+  inquirer
+  .prompt({
+    name: "action",
+    type: "list",
+    message: "What would you like to view?",
+    choices: [
+      "Departments",
+      "Roles",
+      "Employees"
+    ]
+  })
 }
