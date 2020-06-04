@@ -8,25 +8,40 @@ function addRole() {
   inquirer
     .prompt({
       name: "dept",
-      type: "rawlist",
+      type: "list",
       message: "Which department do you want to add a role in?",
-      choices: [deptNames]
+      choices: [deptNames].push("exit")
     })
     .then(function(answer) {
-      var query = ""
-      // mysql code to select role based off department
+      if (answer === exit) {
+        return "exit";
+      }
+
+      var query = "";
+        // mysql code to add role based off department
+      //
 
       inquirer
-        .prompt({
-          name: "roleName",
-          type: "input",
-          message: "What is the name of the department you want to add?",
-        })
+        .prompt(
+          {
+            name: "roleTitle",
+            type: "input",
+            message: "What is the title of the role you want to add?",
+          },
+          {
+            name: "roleSalary",
+            type: "number",
+            message: "What is the salary of the role you are adding?",
+          }
+        )
         .then(function(answer) {
           var query = connection.query(
             "INSERT INTO role SET ?",
             {
-              name: answer
+              title: answer.roleTitle
+            },
+            {
+              salary: answer.roleSalary
             },
             function(err, res) {
               if (err) throw err;
@@ -43,6 +58,14 @@ function addRole() {
       }
     });
   //
+}
+
+getRoleNames() {
+  let roleArr;
+  var query = "SELECT title FROM role ORDER BY title";
+  connection.query(query, function(err, res) {
+    return res;
+  });
 }
 
 module.exports = roleJS;

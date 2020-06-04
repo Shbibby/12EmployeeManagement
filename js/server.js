@@ -27,7 +27,7 @@ function whatUserDo() {
   inquirer
     .prompt({
       name: "action",
-      type: "rawlist",
+      type: "list",
       message: "What would you like to do?",
       choices: [
         "Add Departments/Roles/Employees",
@@ -46,11 +46,16 @@ function whatUserDo() {
         if (checkIfDept === "You need to add a department first") {
           console.log(checkIfDept);
           whatUserDo();
+        } else if (checkIfDept === "exit") {
+          whatUserDo();
         } else break;
 
       case "Update employee roles":
-        updateEmployee();
-        break;
+        let checkIfRole = viewDRE();
+        if (checkIfDept === "You need to add a role first") {
+          console.log(checkIfRole);
+          whatUserDo();
+        } else break;
       }
     })
     .catch(error => {

@@ -9,7 +9,7 @@ function addDepartment() {
       var query = connection.query(
         "INSERT INTO department SET ?",
         {
-          name: answer
+          name: answer.deptName
         },
         function(err, res) {
           if (err) throw err;

@@ -1,70 +1,63 @@
-function createEmployee() {
-  console.log("Inserting a new product...\n");
-  var query = connection.query(
-    "INSERT INTO products SET ?",
-    {
-      flavor: "Rocky Road",
-      price: 3.0,
-      quantity: 50
-    },
-    function(err, res) {
-      if (err) throw err;
-      console.log(res.affectedRows + " product inserted!\n");
-      // Call updateProduct AFTER the INSERT completes
-      updateEmployee();
-    }
-  );
+function addEmployee() {
+  const roleNames = getRoleNames();
 
-  // logs the actual query being run
-  console.log(query.sql);
-}
-
-function updateEmployee() {
-  console.log("Updating all Rocky Road quantities...\n");
-  var query = connection.query(
-    "UPDATE products SET ? WHERE ?",
-    [
-      {
-        quantity: 100
-      },
-      {
-        flavor: "Rocky Road"
+  if (roleNames === NULL) {
+    return "You need to add a role first"
+  }
+  else
+  inquirer
+    .prompt({
+      name: "dept",
+      type: "list",
+      message: "Which department do you want to add a role in?",
+      choices: [roleNames]
+    })
+    .then(function(answer) {
+      if (answer === exit) {
+        return "exit";
       }
-    ],
-    function(err, res) {
-      if (err) throw err;
-      console.log(res.affectedRows + " products updated!\n");
-      // Call deleteProduct AFTER the UPDATE completes
-      deleteEmployee();
-    }
-  );
 
-  // logs the actual query being run
-  console.log(query.sql);
+      var query = ""
+        // mysql code to add employee based off role
+      //
+
+      inquirer
+        .prompt(
+          {
+            name: "employeeFirst",
+            type: "input",
+            message: "What is the first name of the employee you want to add?",
+          },
+          {
+            name: "employeeLast",
+            type: "number",
+            message: "What is the last name of the employee you want to add?",
+          }
+        )
+        .then(function(answer) {
+          var query = connection.query(
+            "INSERT INTO employee SET ?",
+            {
+              first_name: answer.employeeFirst
+            },
+            {
+              last_name: answer.employeeLast
+            },
+            function(err, res) {
+              if (err) throw err;
+            }
+          );
+        });
+      //
+    })
+    .catch(error => {
+      if(error.isTtyError) {
+        // Prompt couldn't be rendered in the current environment
+      } else {
+        // Something else when wrong
+      }
+    });
+  //
 }
 
-function deleteEmployee() {
-  console.log("Deleting all strawberry icecream...\n");
-  connection.query(
-    "DELETE FROM products WHERE ?",
-    {
-      flavor: "strawberry"
-    },
-    function(err, res) {
-      if (err) throw err;
-      console.log(res.affectedRows + " products deleted!\n");
-      // Call readProducts AFTER the DELETE completes
-      readEmployee();
-    }
-  );
-}
-
-function readEmployee() {
-  console.log("Selecting all products...\n");
-  connection.query("SELECT * FROM products", function(err, res) {
-    if (err) throw err;
-    // Log all results of the SELECT statement
-    console.log(res);
-    connection.end();
-  });
-}
+module.exports = employeeJS;
