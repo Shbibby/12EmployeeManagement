@@ -75,4 +75,19 @@ function viewRoles() {
   });
 }
 
+function updateEmployeeRole(title, id) {
+  var query = connection.query(
+      "UPDATE ? FROM employees WHERE ?",
+      {
+        role_id: title
+      },
+      {
+        id: id
+      },
+      function(err, res) {
+        if (err) throw err;
+      }
+    );
+}
+
 module.exports = roleJS;
